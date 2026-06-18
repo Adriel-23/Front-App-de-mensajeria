@@ -1,0 +1,56 @@
+.contact-list-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.no-contacts-found {
+    margin: 10px 0px 10px 40px;
+    font-size: 14px;
+    color: var(--font-color-dark-mode-secondary);
+}
+
+.status-notification-box {
+    padding: 10px 14px;
+    margin: 10px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    text-align: left;
+}
+
+.status-notification-box.error {
+    background-color: rgba(239, 68, 68, 0.12);
+    border: 1px solid #f15c5c;
+    color: #f15c5c;
+}
+
+.status-notification-box.success {
+    background-color: rgba(0, 168, 132, 0.12);
+    border: 1px solid #00a884;
+    color: #34d399;
+}
+
+/* Fila interactiva para iniciar chat por correo */
+.start-chat-email-option {
+    padding: 14px 16px;
+    border-bottom: 1px solid #2a3942;
+    background-color: #202c33;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.start-chat-email-option p {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #e9edef;
+    font-weight: 500;
+    text-align: left;
+}
+
+.start-chat-email-option span {
+    font-size: 11px;
+    color: #8696a0;
+    display: block;
+    text-align: left;
+}

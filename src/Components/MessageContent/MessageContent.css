@@ -1,0 +1,133 @@
+.message-content-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.message-list-container {
+    display: flex;
+}
+
+.message-bubble {
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-by-me {
+    background-color: #134d37;
+    align-self: flex-end;
+    border-radius: 7.5px;
+    max-width: 60%;
+    position: relative;
+}
+
+.message-by-contact {
+    background-color: #232626;
+    align-self: flex-start;
+    border-radius: 7.5px;
+    max-width: 60%;
+    position: relative;
+}
+
+
+.message-bubble-content {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+}
+
+.message-content {
+    color: #ffffff;
+    margin: 0px;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.message-time {
+    width: fit-content;
+    margin-top: 10px;
+    color: #cccccca0;
+    font-size: 12px;
+    align-self: flex-end;
+}
+
+.message-ai-response {
+    background-color: #538fb254;
+    border-left: 3px solid var(--detail-color-primary);
+    border-radius: 7.5px;
+    font-style: italic;
+}
+
+.message-ai-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--detail-color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    display: block;
+    font-style: italic;
+}
+
+.message-mention-bayis {
+    color: var(--detail-color-primary);
+    font-weight: bold;
+    font-style: italic;
+    background-color: rgba(0, 168, 132, 0.15);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+}
+
+.message-mention-user {
+    color: var(--detail-color-primary);
+    font-weight: bold;
+}
+
+.no-messages-text {
+    color: rgba(206, 243, 205, 0.874);
+    font-size: 14px;
+    text-align: center;
+    margin-top: 20px;
+    margin-right: 50px;
+    margin-left: 50px;
+    background-color: #71674193;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+
+.loading-messages-text {
+    color: var(--font-color-dark-mode-primary);
+    font-size: 14px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.twemoji {
+    width: 20px;
+    height: 20px;
+    margin: 0 4px;
+    vertical-align: -0.25em;
+}
+
+.jumbo-emojis .message-content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+}
+
+.jumbo-emojis .twemoji {
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    vertical-align: middle;
+}

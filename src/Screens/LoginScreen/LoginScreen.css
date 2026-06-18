@@ -1,0 +1,185 @@
+/* Contenedor principal estilo WhatsApp Web */
+.whatsapp-login-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #111b21;
+    /* Fondo oscuro oficial de WhatsApp */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* La clásica barra superior verde de la pantalla de carga de WhatsApp */
+.whatsapp-green-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 220px;
+    background-color: #00a884;
+    /* Verde WhatsApp Web */
+    z-index: 1;
+}
+
+/* La tarjeta que emula la caja de WhatsApp Web */
+.whatsapp-login-card {
+    position: relative;
+    background-color: #222e35;
+    /* Fondo del panel lateral en Dark Mode */
+    border-radius: 3px;
+    /* WhatsApp Web usa bordes muy poco redondeados */
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 17px 50px 0 rgba(0, 0, 0, .19), 0 12px 15px 0 rgba(0, 0, 0, .24);
+    z-index: 2;
+    padding: 35px 40px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Sección de Logo */
+.whatsapp-logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.whatsapp-logo-section h1 {
+    color: #e9edef;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Cuerpo de la tarjeta */
+.whatsapp-card-body h2 {
+    color: #e9edef;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0 0 6px 0;
+    text-align: left;
+}
+
+.card-subtitle {
+    color: #8696a0;
+    font-size: 13px;
+    margin: 0 0 24px 0;
+    text-align: left;
+}
+
+/* Formulario e Inputs */
+.whatsapp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.whatsapp-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.whatsapp-input-group label {
+    color: #00a884;
+    /* Verde para los títulos de campos */
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+.whatsapp-input-group input {
+    background-color: #2a3942;
+    /* Color de input activo de WA */
+    border: 1px solid #2a3942;
+    border-radius: 4px;
+    padding: 12px 14px;
+    color: #d1d7db;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.whatsapp-input-group input:focus {
+    border-color: #00a884;
+    /* Bordes verdes al enfocar */
+}
+
+/* Enlaces */
+.whatsapp-links {
+    text-align: right;
+    margin-top: -5px;
+}
+
+.whatsapp-links a {
+    color: #53bdeb;
+    /* Azul clásico de enlaces en WA Dark */
+    font-size: 12.5px;
+    text-decoration: none;
+}
+
+.whatsapp-links a:hover {
+    text-decoration: underline;
+}
+
+/* Botón de acción principal verde plano */
+.whatsapp-btn {
+    background-color: #00a884;
+    color: #111b21;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+.whatsapp-btn:hover:not(:disabled) {
+    background-color: #00bfa5;
+}
+
+.whatsapp-btn:disabled {
+    background-color: #2a3942;
+    color: #8696a0;
+    cursor: not-allowed;
+}
+
+/* Caja de error */
+.whatsapp-error-box {
+    background-color: rgba(241, 92, 92, 0.1);
+    border-left: 4px solid #f15c5c;
+    color: #f15c5c;
+    padding: 12px;
+    border-radius: 3px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Pie de tarjeta */
+.whatsapp-card-footer {
+    border-top: 1px solid #2a3942;
+    margin-top: 30px;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 13.5px;
+    color: #8696a0;
+}
+
+.whatsapp-card-footer a {
+    color: #53bdeb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.whatsapp-card-footer a:hover {
+    text-decoration: underline;
+}

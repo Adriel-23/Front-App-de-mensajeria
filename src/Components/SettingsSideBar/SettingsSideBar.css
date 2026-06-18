@@ -1,0 +1,165 @@
+.settings-sidebar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    width: 100%;
+    animation: slideInLeft 0.3s ease forwards;
+}
+
+.settings-sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    gap: 15px;
+    height: 60px;
+}
+
+.settings-back-button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.settings-back-button:hover {
+    background-color: var(--hover-color);
+}
+
+.settings-sidebar-header h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.settings-sidebar-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Profile Header */
+.settings-profile-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--bg-primary);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 10px solid var(--bg-secondary); /* Divider */
+}
+
+.settings-profile-header:hover {
+    background-color: var(--hover-color);
+}
+
+.settings-profile-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.settings-profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.settings-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #6b7280;
+    border-radius: 50%;
+}
+
+.settings-profile-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.settings-profile-name {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.settings-profile-email {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Options List */
+.settings-options-list {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+.settings-option-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: left;
+    color: var(--text-primary);
+}
+
+.settings-option-item:hover {
+    background-color: var(--hover-color);
+}
+
+.settings-option-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+    color: var(--text-secondary);
+}
+
+.settings-option-text {
+    flex-grow: 1;
+    font-size: 1rem;
+}
+
+.text-danger {
+    color: #ef4444 !important;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

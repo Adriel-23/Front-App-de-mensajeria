@@ -1,0 +1,13 @@
+@import "../LoginScreen/LoginScreen.css";
+
+/* Caja verde para indicar éxito en el envío del correo de verificación */
+.whatsapp-success-box {
+    background-color: rgba(0, 168, 132, 0.1);
+    border-left: 4px solid #00a884;
+    color: #34d399;
+    padding: 12px;
+    border-radius: 3px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-align: left;
+}
