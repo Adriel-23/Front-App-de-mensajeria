@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:2323/api/auth";
+import { API_BASE_URL } from "../Config/environment.js";
+
+const API_URL = `${API_BASE_URL}/api/auth`;
 
 
 export async function loginRequest(email, password) {

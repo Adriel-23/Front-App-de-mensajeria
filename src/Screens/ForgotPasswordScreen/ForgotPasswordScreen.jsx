@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import { forgotPasswordRequest } from "../../Services/AuthService";
-import "../RegisterScreen/RegisterScreen.css"; // Comparte estilos de registro para el success box
+import "../RegisterScreen/RegisterScreen.css";
 
 export default function ForgotPasswordScreen() {
     const [email, setEmail] = useState("");
