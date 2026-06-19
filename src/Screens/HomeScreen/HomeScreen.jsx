@@ -10,10 +10,23 @@ import CreateGroupSideBar from '../../Components/CreateGroupSideBar/CreateGroupS
 
 export default function HomeScreen() {
   const { searchQuery, setSearchQuery } = useContext(ContactContext)
-  const { userProfile } = useAuth()
+  const { userProfile, logout } = useAuth()
   const [activeSidebar, setActiveSidebar] = useState('chats')
   const [showSearchHint, setShowSearchHint] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const searchInputRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMenuOpen && !event.target.closest('.dropdown-menu-container')) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const triggerSearchHint = () => {
     setShowSearchHint(true);
@@ -101,7 +114,7 @@ export default function HomeScreen() {
               <div className='contact-side-bar'>
                 <div className='home-screen-header'>
                   <div className="icon-wrapper">
-                    <h1>WhatsApp</h1>
+                    <h1 className="brand-name">BayApp</h1>
                     <div className='icon-chats'>
                       <button
                         onClick={() => setActiveSidebar('create-group')}
@@ -113,6 +126,56 @@ export default function HomeScreen() {
                           <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                         </svg>
                       </button>
+
+                      {/* Dropdown menu container (3 dots) */}
+                      <div className="dropdown-menu-container">
+                        <button
+                          className="dropdown-menu-btn"
+                          onClick={() => setIsMenuOpen(!isMenuOpen)}
+                          title="Menú de opciones">
+                          {/* SVG de los 3 puntos */}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                          </svg>
+                        </button>
+                        {isMenuOpen && (
+                          <div className="dropdown-menu-content">
+                            <div className="dropdown-profile-header">
+                              {userProfile?.avatar ? (
+                                <img
+                                  src={userProfile.avatar}
+                                  alt="Profile"
+                                  className="dropdown-profile-avatar"
+                                />
+                              ) : (
+                                <div className="dropdown-avatar-placeholder"></div>
+                              )}
+                              <span className="dropdown-profile-name">{userProfile?.nickname || "Usuario"}</span>
+                              <span className="dropdown-profile-email">{userProfile?.email || ""}</span>
+                            </div>
+                            <div className="dropdown-actions">
+                              <button
+                                onClick={() => {
+                                  setActiveSidebar('profile');
+                                  setIsMenuOpen(false);
+                                }}
+                                className="dropdown-menu-item profile-btn"
+                              >
+                                Personalizar perfil
+                              </button>
+                              <button
+                                onClick={() => {
+                                  logout();
+                                  setIsMenuOpen(false);
+                                }}
+                                className="dropdown-menu-item logout-btn"
+                              >
+                                Cerrar sesión
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                   </div>
@@ -123,7 +186,7 @@ export default function HomeScreen() {
                         <input
                           ref={searchInputRef}
                           type='text'
-                          placeholder='🔍︎  Search or start new chat'
+                          placeholder='🔍︎  Busca o inicia un nuevo chat'
                           value={searchQuery}
                           onChange={handleSearch}
                           onFocus={() => setShowSearchHint(false)}
@@ -137,7 +200,7 @@ export default function HomeScreen() {
                         />
                         {showSearchHint && (
                           <div className="search-hint-tooltip">
-                            Escribe el nombre o correo para buscar...
+                            Busca nickname o correo
                           </div>
                         )}
                       </div>
@@ -146,7 +209,6 @@ export default function HomeScreen() {
                   <div className='tags-bar'>
                     <span>All</span>
                     <span>Unread</span>
-                    <span>Favorites</span>
                     <span>Groups</span>
                   </div>
 

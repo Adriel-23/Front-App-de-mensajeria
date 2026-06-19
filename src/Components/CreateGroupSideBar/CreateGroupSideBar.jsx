@@ -12,7 +12,7 @@ export default function CreateGroupSideBar({ onClose }) {
 
     const [groupName, setGroupName] = useState('');
     const [description, setDescription] = useState('');
-    const [avatarUrl, setAvatarUrl] = useState('');
+    const [avatarFile, setAvatarFile] = useState(null);
     const [selectedMembers, setSelectedMembers] = useState([]);
     const [searchEmail, setSearchEmail] = useState('');
     const [statusMessage, setStatusMessage] = useState('');
@@ -91,18 +91,20 @@ export default function CreateGroupSideBar({ onClose }) {
         setStatusType('');
 
         try {
+            const formData = new FormData();
+            formData.append('name', groupName);
+            formData.append('description', description);
+            if (avatarFile) {
+                formData.append('avatar', avatarFile);
+            }
+            formData.append('participantIds', JSON.stringify(selectedMembers));
+
             const response = await fetch(`${API_BASE_URL}/api/chats/group`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`
                 },
-                body: JSON.stringify({
-                    name: groupName,
-                    description,
-                    avatar: avatarUrl || undefined,
-                    participantIds: selectedMembers
-                })
+                body: formData
             });
 
             const data = await response.json();
@@ -164,13 +166,26 @@ export default function CreateGroupSideBar({ onClose }) {
                         />
                     </div>
 
-                    <div className="create-group-input-group">
-                        <label>URL de Avatar del Grupo</label>
+                    <div className="group-avatar-display-section">
+                        <label htmlFor="group-create-avatar" className="group-avatar-frame" title="Cargar foto del grupo">
+                            {avatarFile ? (
+                                <img src={URL.createObjectURL(avatarFile)} alt="Vista previa del avatar" />
+                            ) : (
+                                <div className="group-avatar-empty-placeholder"></div>
+                            )}
+
+                            <div className="group-avatar-overlay">
+                                <span>Cargar foto</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div style={{ display: "none" }}>
                         <input
-                            type="text"
-                            placeholder="https://ejemplo.com/avatar.jpg"
-                            value={avatarUrl}
-                            onChange={e => setAvatarUrl(e.target.value)}
+                            type="file"
+                            id="group-create-avatar"
+                            accept="image/*"
+                            onChange={e => setAvatarFile(e.target.files[0])}
                             disabled={isLoading}
                         />
                     </div>

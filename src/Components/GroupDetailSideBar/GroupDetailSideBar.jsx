@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router";
+import { ContactContext } from "../../Context/ContactContext";
 import { API_BASE_URL } from "../../Config/environment.js";
 import "./GroupDetailSideBar.css";
 
 export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh }) {
     const { authToken, userProfile } = useAuth();
+    const { contacts } = useContext(ContactContext);
     const navigate = useNavigate();
     const [statusMessage, setStatusMessage] = useState("");
     const [statusType, setStatusType] = useState("");
@@ -17,7 +19,19 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
         (p) => p.user && p.user._id === userProfile?._id
     );
     const isAdmin = currentUserParticipant?.role === "admin";
+
+    const otherParticipant = contactSelected.participants.find(
+        (p) => p.user && p.user._id !== userProfile?._id
+    );
+    const otherUser = otherParticipant?.user;
+
+    const commonGroups = contacts ? contacts.filter(chat => 
+        chat.type === 'group' && 
+        chat.participants.some(p => p.user && p.user._id === userProfile?._id && p.invitationStatus === 'accepted') &&
+        chat.participants.some(p => p.user && p.user._id === otherUser?._id && p.invitationStatus === 'accepted')
+    ) : [];
     const [isEditing, setIsEditing] = useState(false);
+    const [avatarFile, setAvatarFile] = useState(null);
     const [editForm, setEditForm] = useState({
         name: contactSelected.chatName || '',
         description: contactSelected.chatDescription || '',
@@ -31,6 +45,7 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
             avatar: contactSelected.chatAvatar || ''
         });
         setIsEditing(false);
+        setAvatarFile(null);
     }, [contactSelected]);
 
     const handleRemoveMember = async (userId) => {
@@ -84,32 +99,41 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
     };
 
     const handleSaveDetails = async () => {
+        setStatusMessage("");
+        setIsLoading(true);
         try {
+            const formData = new FormData();
+            formData.append("name", editForm.name);
+            formData.append("description", editForm.description);
+            if (avatarFile) {
+                formData.append("avatar", avatarFile);
+            } else {
+                formData.append("avatar", editForm.avatar);
+            }
+
             const response = await fetch(`${API_BASE_URL}/api/chats/${contactSelected._id}/details`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${authToken}`
                 },
-                body: JSON.stringify({
-                    name: editForm.name,
-                    description: editForm.description,
-                    avatar: editForm.avatar
-                })
+                body: formData
             });
 
+            const data = await response.json();
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Error al actualizar");
+                throw new Error(data.message || "Error al actualizar");
             }
 
             setIsEditing(false);
+            setAvatarFile(null);
             onRefresh();
             setStatusMessage("Grupo actualizado correctamente");
             setStatusType("success");
         } catch (error) {
             setStatusMessage(error.message);
             setStatusType("error");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -136,13 +160,28 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
                 <div className="group-info-card">
                     {isEditing ? (
                         <div className="whatsapp-form" style={{ width: '100%', padding: '0 15px' }}>
-                            <div className="whatsapp-input-group">
-                                <label>FOTO DE PERFIL</label>
+                            <div className="group-avatar-display-section">
+                                <label htmlFor="group-edit-avatar" className="group-avatar-frame" title="Cambiar foto de perfil del grupo">
+                                    {avatarFile ? (
+                                        <img src={URL.createObjectURL(avatarFile)} alt="Nueva vista previa" />
+                                    ) : editForm.avatar ? (
+                                        <img src={editForm.avatar} alt="Avatar actual" />
+                                    ) : (
+                                        <div className="group-avatar-empty-placeholder"></div>
+                                    )}
+
+                                    <div className="group-avatar-overlay">
+                                        <span>Cambiar</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div style={{ display: "none" }}>
                                 <input
-                                    type="text"
-                                    value={editForm.avatar}
-                                    onChange={(e) => setEditForm({ ...editForm, avatar: e.target.value })}
-                                    placeholder="URL del avatar"
+                                    type="file"
+                                    id="group-edit-avatar"
+                                    accept="image/*"
+                                    onChange={(e) => setAvatarFile(e.target.files[0])}
                                 />
                             </div>
                             <div className="whatsapp-input-group">
@@ -168,7 +207,7 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
                                 Guardar cambios
                             </button>
 
-                            <button onClick={() => setIsEditing(false)} className="group-leave-btn">
+                            <button onClick={() => { setIsEditing(false); setAvatarFile(null); }} className="group-leave-btn">
                                 Cancelar
                             </button>
                         </div>
@@ -198,6 +237,38 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
                     )}
                 </div>
 
+                {!isGroup && (
+                    <div className="contact-extra-info-section">
+                        <div className="contact-info-field">
+                            <span className="info-field-label">Correo electrónico</span>
+                            <span className="info-field-value">{contactSelected.participantEmail || otherUser?.email || "No disponible"}</span>
+                        </div>
+                        <div className="common-groups-section">
+                            <h4>Grupos en común ({commonGroups.length})</h4>
+                            {commonGroups.length > 0 ? (
+                                <div className="common-groups-list">
+                                    {commonGroups.map(group => (
+                                        <div key={group._id} className="common-group-item">
+                                            <div className="common-group-avatar-wrapper">
+                                                {group.chatAvatar ? (
+                                                    <img src={group.chatAvatar} alt={group.chatName} />
+                                                ) : (
+                                                    <div className="common-group-avatar-placeholder"></div>
+                                                )}
+                                            </div>
+                                            <div className="common-group-info">
+                                                <h5>{group.chatName}</h5>
+                                                {group.chatDescription && <p>{group.chatDescription}</p>}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="no-common-groups">No hay grupos en común</p>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 {isGroup && (
                     <div className="group-members-section">

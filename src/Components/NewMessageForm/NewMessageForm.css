@@ -127,12 +127,44 @@
     color: var(--detail-color-primary);
 }
 
+.new-message-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .emoji-picker-container {
     position: absolute;
     bottom: 100%;
     left: 20px;
     margin-bottom: 10px;
     z-index: 1000;
+    width: 350px;
+    height: 400px;
+}
+
+/* For mobile screens: emoji picker opens at the bottom as a block, taking the keyboard's place */
+@media screen and (max-width: 769px) {
+    .emoji-picker-container {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        margin-bottom: 0;
+        margin-top: 10px;
+        width: 100%;
+        height: 320px;
+        z-index: 10;
+        overflow: hidden;
+    }
+
+    .emoji-picker-container .EmojiPickerReact {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
 }
 
 .mention-suggestions-container {
