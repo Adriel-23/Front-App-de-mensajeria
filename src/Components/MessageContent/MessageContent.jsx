@@ -56,7 +56,7 @@ export default function MessageContent() {
     return (
         <div className='message-content-container'>
             {messages.map((message) => {
-                const isAiResponse = message.isAi && !message.sendByMe;
+                const isAiResponse = message.isAi && !message.sender;
 
                 return (
                     <div key={message._id} className='messages-list-container'>
