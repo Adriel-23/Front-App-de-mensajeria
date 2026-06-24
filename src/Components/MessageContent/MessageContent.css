@@ -131,3 +131,22 @@
     margin: 0;
     vertical-align: middle;
 }
+
+.message-sender-name {
+    font-size: 13px;
+    font-weight: 500;
+    text-align: left;
+    display: block;
+    line-height: 21px;
+}
+
+.sender-color-0 { color: #e542a3; }
+.sender-color-1 { color: #35cd96; }
+.sender-color-2 { color: #6bcbef; }
+.sender-color-3 { color: #ffa925; }
+.sender-color-4 { color: #1f7aec; }
+.sender-color-5 { color: #ba33dc; }
+.sender-color-6 { color: #ff7a1f; }
+.sender-color-7 { color: #e17076; }
+.sender-color-8 { color: #83d396; }
+.sender-color-9 { color: #ff8a8c; }

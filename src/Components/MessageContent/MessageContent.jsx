@@ -4,7 +4,7 @@ import Twemoji from 'react-twemoji';
 import './MessageContent.css';
 
 export default function MessageContent() {
-    const { messages, loadingMessages } = useContext(ContactDetailContext);
+    const { contactSelected, messages, loadingMessages } = useContext(ContactDetailContext);
 
     const formatTextWithMentions = (text) => {
         if (!text) return text;
@@ -15,6 +15,15 @@ export default function MessageContent() {
             }
             return part;
         });
+    };
+
+    const getSenderColorClass = (senderId) => {
+        if (!senderId) return 'sender-color-0';
+        let hash = 0;
+        for (let i = 0; i < senderId.length; i++) {
+            hash += senderId.charCodeAt(i);
+        }
+        return `sender-color-${hash % 10}`;
     };
 
     const isOnlyEmojis = (text) => {
@@ -57,6 +66,7 @@ export default function MessageContent() {
         <div className='message-content-container'>
             {messages.map((message) => {
                 const isAiResponse = message.isAi && !message.sender;
+                const isGroupChat = contactSelected?.type === 'group';
 
                 return (
                     <div key={message._id} className='messages-list-container'>
@@ -68,6 +78,11 @@ export default function MessageContent() {
                         }>
                             {isAiResponse && (
                                 <span className="message-ai-badge">Bayis</span>
+                            )}
+                            {isGroupChat && !message.sendByMe && !isAiResponse && message.sender && (
+                                <span className={`message-sender-name ${getSenderColorClass(message.sender._id)}`}>
+                                    {message.sender.name}
+                                </span>
                             )}
                             <div className='message-bubble-content'>
                                 <p className='message-content'>
