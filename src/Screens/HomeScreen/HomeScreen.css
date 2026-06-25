@@ -14,6 +14,8 @@
     --background-color-dark-mode-secondary: #2e2f2f;
     --font-color-dark-mode-primary: #ffffff;
     --font-color-dark-mode-secondary: #a2a295;
+    --hover-shadow: rgba(69, 69, 69, 0.263);
+    --danger-color: #ef4444;
 }
 
 * {
@@ -175,7 +177,7 @@ body {
 
 .vertical-nav-bar button:hover {
     background: none;
-    box-shadow: 0px 0px 0px 6px rgba(69, 69, 69, 0.263);
+    box-shadow: 0px 0px 0px 6px var(--hover-shadow);
     border-radius: 50%;
 }
 
@@ -188,7 +190,7 @@ body {
 
 .settings-icon button:hover {
     background: none;
-    box-shadow: 0px 0px 0px 6px rgba(69, 69, 69, 0.263);
+    box-shadow: 0px 0px 0px 6px var(--hover-shadow);
     border-radius: 50%;
 }
 
@@ -628,7 +630,7 @@ body {
 
     .dropdown-menu-item.logout-btn {
         background-color: transparent;
-        color: #ef4444;
+        color: var(--danger-color);
     }
 
     .dropdown-menu-item.logout-btn:hover {

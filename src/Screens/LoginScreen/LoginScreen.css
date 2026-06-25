@@ -6,6 +6,7 @@
     --font-color-dark-mode-secondary: #a2a295;
     --detail-color-primary: #1daa61;
     --detail-color-secondary: #007bfc;
+    --error-color: #f15c5c;
 }
 
 .whatsapp-login-container {
@@ -152,8 +153,8 @@
 
 .whatsapp-error-box {
     background-color: rgba(241, 92, 92, 0.1);
-    border-left: 4px solid #f15c5c;
-    color: #f15c5c;
+    border-left: 4px solid var(--error-color);
+    color: var(--error-color);
     padding: 12px;
     border-radius: 3px;
     font-size: 13px;

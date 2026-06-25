@@ -77,7 +77,12 @@ export default function MessageContent() {
                             (isOnlyEmojis(message.content) ? ' jumbo-emojis' : '')
                         }>
                             {isAiResponse && (
-                                <span className="message-ai-badge">Bayis</span>
+                                <div className='message-ai-header'>
+                                    <svg height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 75.996 75.996" xmlSpace="preserve" fill="#000000">
+                                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <circle fill="#a4e566" cx="37.998" cy="37.998" r="37.998"></circle> </g> <g> <circle fill="#dae8ce" cx="37.998" cy="37.998" r="31.664"></circle> </g> <g> <circle fill="#f71f18" cx="37.998" cy="37.998" r="27.498"></circle> </g> <g> <circle fill="#ce7940" cx="37.998" cy="37.998" r="3.438"></circle> </g> <g> <circle fill="#ce7940" cx="37.998" cy="20.998" r="3.438"></circle> </g> <g> <circle fill="#ce7940" cx="23.435" cy="29.789" r="3.438"></circle> </g> <g> <circle fill="#ce7940" cx="23.767" cy="46.796" r="3.438"></circle> </g> <g> <circle fill="#ce7940" cx="38.661" cy="55.013" r="3.438"></circle> </g> <g> <circle fill="#ce7940" cx="53.224" cy="46.222" r="3.438"></circle> </g> <g> <circle fill="#ce7940" cx="52.892" cy="29.214" r="3.438"></circle> </g> </g> </g>
+                                    </svg>
+                                    <span className="message-ai-badge">Bayis</span>
+                                </div>
                             )}
                             {isGroupChat && !message.sendByMe && !isAiResponse && message.sender && (
                                 <span className={`message-sender-name ${getSenderColorClass(message.sender._id)}`}>

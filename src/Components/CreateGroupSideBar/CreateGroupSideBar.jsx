@@ -147,7 +147,7 @@ export default function CreateGroupSideBar({ onClose }) {
                         <label>Nombre del Grupo (Obligatorio)</label>
                         <input
                             type="text"
-                            placeholder="Ej. Proyecto Final"
+                            placeholder="Ej. Los amigos del Barrio"
                             value={groupName}
                             onChange={e => setGroupName(e.target.value)}
                             disabled={isLoading}
@@ -191,7 +191,7 @@ export default function CreateGroupSideBar({ onClose }) {
                     </div>
 
                     <div className="create-group-search-add-section">
-                        <label>Buscar / Invitar por Email</label>
+                        <label>Invitar por Email o Nickname</label>
                         <div className="search-add-wrapper">
                             <input
                                 type="email"

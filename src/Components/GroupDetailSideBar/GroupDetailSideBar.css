@@ -1,3 +1,16 @@
+:root {
+    --border-color: #2a3942;
+    --placeholder-bg: #2a2c2c;
+    --danger-color: #ef4444;
+    --error-color: #f15c5c;
+    --success-color: #00a884;
+    --btn-cancel-color: #e2e8f0;
+    --btn-hover-bg: rgba(255, 255, 255, 0.1);
+    --white-color: #fff;
+    --dashed-border-color: #4f5152;
+    --overlay-bg: rgba(0, 0, 0, 0.55);
+}
+
 .group-detail-sidebar {
     width: 350px;
     height: 100%;
@@ -16,7 +29,7 @@
     align-items: center;
     padding: 20px;
     gap: 15px;
-    border-bottom: 1px solid #2a3942;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .group-detail-header h3 {
@@ -49,7 +62,7 @@
     align-items: center;
     text-align: center;
     margin-bottom: 25px;
-    border-bottom: 1px solid #2a3942;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 25px;
 }
 
@@ -71,7 +84,7 @@
 .group-info-avatar-placeholder {
     width: 100%;
     height: 100%;
-    background-color: #2a2c2c;
+    background-color: var(--placeholder-bg);
 }
 
 .group-info-card h2 {
@@ -129,7 +142,7 @@
 .group-member-avatar-placeholder {
     width: 100%;
     height: 100%;
-    background-color: #2a2c2c;
+    background-color: var(--placeholder-bg);
 }
 
 .group-member-info {
@@ -151,25 +164,24 @@
 
 .group-member-remove-btn {
     background: none;
-    border: 1px solid #ef4444;
-    border-radius: 4px;
-    color: #ef4444;
+    border: none;
+    color: var(--danger-color);
     padding: 4px 8px;
     font-size: 12px;
     cursor: pointer;
+    border-radius: 4px;
     transition: background 0.2s, color 0.2s;
 }
 
 .group-member-remove-btn:hover {
-    background-color: #ef4444;
-    color: white;
+    background-color: rgba(255, 99, 99, 0.067);
 }
 
 .group-leave-btn {
     background-color: transparent;
-    color: #ef4444;
-    border: 1px solid #ef4444;
-    border-radius: 8px;
+    color: var(--danger-color);
+    border: none;
+    border-radius: 4px;
     padding: 12px;
     width: 100%;
     font-weight: bold;
@@ -179,8 +191,7 @@
 }
 
 .group-leave-btn:hover {
-    background-color: #ef4444;
-    color: white;
+    background-color: rgba(255, 99, 99, 0.067);
 }
 
 .group-status-box {
@@ -192,17 +203,17 @@
 
 .group-status-box.error {
     background-color: rgba(239, 68, 68, 0.12);
-    border: 1px solid #f15c5c;
-    color: #f15c5c;
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
 }
 
 .group-status-box.success {
     background-color: rgba(0, 168, 132, 0.12);
-    border: 1px solid #00a884;
+    border: 1px solid var(--success-color);
     color: #34d399;
 }
 
-/* --- ESTILOS DE EDICIÓN DEL GRUPO --- */
+
 .edit-group-form {
     display: flex;
     flex-direction: column;
@@ -221,7 +232,7 @@
 
 .edit-group-input:focus,
 .edit-group-textarea:focus {
-    outline: 1px solid #00a884;
+    outline: 1px solid var(--success-color);
 }
 
 .edit-group-textarea {
@@ -240,22 +251,22 @@
     padding: 8px;
     cursor: pointer;
     background: transparent;
-    color: #e2e8f0;
-    border: 1px solid #e2e8f0;
+    color: var(--btn-cancel-color);
+    border: 1px solid var(--btn-cancel-color);
     border-radius: 5px;
     transition: background 0.2s ease;
 }
 
 .edit-btn-cancel:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(165, 131, 131, 0.071);
 }
 
 .edit-btn-save {
     flex: 1;
     padding: 8px;
     cursor: pointer;
-    background: #00a884;
-    color: #fff;
+    background: var(--success-color);
+    color: var(--white-color);
     border: none;
     border-radius: 5px;
     transition: background 0.2s ease;
@@ -269,8 +280,8 @@
 .edit-group-btn {
     margin-top: 15px;
     padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: var(--btn-hover-bg);
+    color: var(--white-color);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -278,10 +289,9 @@
 }
 
 .edit-group-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.071);
 }
 
-/* --- ESTILOS DE INFORMACIÓN EXTRA PARA CONTACTOS DIRECTOS --- */
 .contact-extra-info-section {
     display: flex;
     flex-direction: column;
@@ -294,7 +304,7 @@
     flex-direction: column;
     gap: 5px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #2a3942;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .info-field-label {
@@ -346,7 +356,7 @@
 .common-group-avatar-placeholder {
     width: 100%;
     height: 100%;
-    background-color: #2a2c2c;
+    background-color: var(--placeholder-bg);
 }
 
 .common-group-info {
@@ -377,7 +387,7 @@
     margin: 0;
 }
 
-/* --- ESTILOS PARA EL AVATAR CLICKABLE DEL GRUPO (EDICIÓN) --- */
+
 .group-avatar-display-section {
     display: flex;
     justify-content: center;
@@ -393,7 +403,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px dashed #4f5152;
+    border: 2px dashed var(--dashed-border-color);
     position: relative;
     cursor: pointer;
 }
@@ -404,7 +414,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.55);
+    background-color: var(--overlay-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -431,9 +441,24 @@
 .group-avatar-empty-placeholder {
     width: 100%;
     height: 100%;
-    background-color: #2a2c2c;
+    background-color: var(--placeholder-bg);
 }
 
+.edit-group-info {
+    color: green;
+    background: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border: none;
+    border-radius: 4px;
+}
+
+.edit-group-info:hover {
+    background-color: rgba(243, 243, 243, 0.078);
+}
 
 @media screen and (max-width: 1100px) {
     .group-detail-sidebar {
@@ -445,4 +470,156 @@
         border-left: none;
         z-index: 10;
     }
+}
+
+/* Custom Confirm Dialog */
+.custom-confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(11, 20, 26, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.custom-confirm-box {
+    background-color: var(--background-color-dark-mode-primary);
+    border-radius: 6px;
+    padding: 22px 24px 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 17px 50px 0 rgba(11,20,26,.19), 0 12px 15px 0 rgba(11,20,26,.24);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.custom-confirm-title {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0 0 20px 0;
+    color: var(--font-color-dark-mode-primary);
+    line-height: 28px;
+}
+
+.custom-confirm-subtitle {
+    font-size: 14px;
+    color: var(--font-color-dark-mode-secondary);
+    margin: 0 0 32px 0;
+    line-height: 20px;
+}
+
+.custom-confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 0;
+}
+
+.custom-confirm-btn-cancel {
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: var(--success-color);
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.custom-confirm-btn-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.custom-confirm-btn-danger {
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: none;
+    background-color: var(--danger-color);
+    color: var(--white-color);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: opacity 0.2s;
+}
+
+.custom-confirm-btn-danger:hover {
+    opacity: 0.85;
+}
+
+/* Invite View Styles */
+.add-member-option {
+    cursor: pointer;
+}
+
+.add-member-icon-wrapper {
+    background-color: var(--success-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.add-member-text {
+    color: var(--success-color);
+}
+
+.invite-view-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.invite-view-header h4 {
+    margin: 0;
+}
+
+.invite-search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.invite-search-input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--background-color-dark-mode-secondary);
+    color: var(--font-color-dark-mode-primary);
+}
+
+.invite-search-input:focus {
+    outline: 1px solid var(--success-color);
+}
+
+.invite-search-btn {
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.invite-search-btn:hover {
+    background-color: #008f6f;
+}
+
+.invite-member-item {
+    cursor: pointer;
+}
+
+.invite-no-contacts {
+    font-size: 13px;
+    color: var(--font-color-dark-mode-secondary);
 }

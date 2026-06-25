@@ -1,3 +1,8 @@
+:root {
+    --bubble-sender-color: #232626;
+    --bubble-radius: 7.5px;
+}
+
 .message-content-container {
     display: flex;
     flex-direction: column;
@@ -22,15 +27,15 @@
 .message-by-me {
     background-color: #134d37;
     align-self: flex-end;
-    border-radius: 7.5px;
+    border-radius: var(--bubble-radius);
     max-width: 60%;
     position: relative;
 }
 
 .message-by-contact {
-    background-color: #232626;
+    background-color: var(--bubble-sender-color);
     align-self: flex-start;
-    border-radius: 7.5px;
+    border-radius: var(--bubble-radius);
     max-width: 60%;
     position: relative;
 }
@@ -59,14 +64,21 @@
 }
 
 .message-ai-response {
-    background-color: #538fb254;
+    background-color: var(--bubble-sender-color);
     border-left: 3px solid var(--detail-color-primary);
-    border-radius: 7.5px;
+    border-radius: var(--bubble-radius);
     font-style: italic;
 }
 
+.message-ai-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
 .message-ai-badge {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--detail-color-primary);
     text-transform: uppercase;
@@ -134,19 +146,49 @@
 
 .message-sender-name {
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 700;
     text-align: left;
     display: block;
     line-height: 21px;
+    margin-bottom: 2px;
 }
 
-.sender-color-0 { color: #e542a3; }
-.sender-color-1 { color: #35cd96; }
-.sender-color-2 { color: #6bcbef; }
-.sender-color-3 { color: #ffa925; }
-.sender-color-4 { color: #1f7aec; }
-.sender-color-5 { color: #ba33dc; }
-.sender-color-6 { color: #ff7a1f; }
-.sender-color-7 { color: #e17076; }
-.sender-color-8 { color: #83d396; }
-.sender-color-9 { color: #ff8a8c; }
+.sender-color-0 {
+    color: #e542a3;
+}
+
+.sender-color-1 {
+    color: #35cd96;
+}
+
+.sender-color-2 {
+    color: #6bcbef;
+}
+
+.sender-color-3 {
+    color: #ffa925;
+}
+
+.sender-color-4 {
+    color: #1f7aec;
+}
+
+.sender-color-5 {
+    color: #ba33dc;
+}
+
+.sender-color-6 {
+    color: #ff7a1f;
+}
+
+.sender-color-7 {
+    color: #e17076;
+}
+
+.sender-color-8 {
+    color: #83d396;
+}
+
+.sender-color-9 {
+    color: #ff8a8c;
+}

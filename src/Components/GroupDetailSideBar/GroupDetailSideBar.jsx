@@ -7,13 +7,32 @@ import "./GroupDetailSideBar.css";
 
 export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh }) {
     const { authToken, userProfile } = useAuth();
-    const { contacts } = useContext(ContactContext);
+    const { contacts, createDirectChat } = useContext(ContactContext);
     const navigate = useNavigate();
     const [statusMessage, setStatusMessage] = useState("");
     const [statusType, setStatusType] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isInviting, setIsInviting] = useState(false);
+    const [inviteEmail, setInviteEmail] = useState("");
+    const [confirmDialog, setConfirmDialog] = useState({
+        isOpen: false,
+        action: null,
+        title: "",
+        subtitle: "",
+        confirmText: ""
+    });
 
     const isGroup = contactSelected.type === "group";
+
+    const directContacts = (contacts || []).filter(chat => chat.type === 'direct');
+    const contactsList = directContacts
+        .map(chat => {
+            const otherParticipant = chat.participants.find(
+                p => p.user && p.user._id !== userProfile?._id
+            );
+            return otherParticipant ? otherParticipant.user : null;
+        })
+        .filter(Boolean);
 
     const currentUserParticipant = contactSelected.participants.find(
         (p) => p.user && p.user._id === userProfile?._id
@@ -25,8 +44,8 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
     );
     const otherUser = otherParticipant?.user;
 
-    const commonGroups = contacts ? contacts.filter(chat => 
-        chat.type === 'group' && 
+    const commonGroups = contacts ? contacts.filter(chat =>
+        chat.type === 'group' &&
         chat.participants.some(p => p.user && p.user._id === userProfile?._id && p.invitationStatus === 'accepted') &&
         chat.participants.some(p => p.user && p.user._id === otherUser?._id && p.invitationStatus === 'accepted')
     ) : [];
@@ -46,10 +65,98 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
         });
         setIsEditing(false);
         setAvatarFile(null);
+        setIsInviting(false);
+        setInviteEmail("");
     }, [contactSelected]);
 
-    const handleRemoveMember = async (userId) => {
-        if (!window.confirm("¿Seguro que deseas eliminar a este miembro del grupo?")) return;
+    useEffect(() => {
+        if (statusMessage) {
+            const timer = setTimeout(() => {
+                setStatusMessage("");
+                setStatusType("");
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [statusMessage]);
+
+    const inviteContactById = async (userId) => {
+        setStatusMessage("");
+        setIsLoading(true);
+        try {
+            const inviteResponse = await fetch(`${API_BASE_URL}/api/chats/${contactSelected._id}/invite`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${authToken}`
+                },
+                body: JSON.stringify({ userToInvite: userId })
+            });
+            
+            const inviteData = await inviteResponse.json();
+            if (!inviteResponse.ok) {
+                throw new Error(inviteData.message || "Error al invitar al grupo");
+            }
+            
+            setStatusType("success");
+            setStatusMessage("Usuario añadido al grupo correctamente.");
+            setIsInviting(false);
+            setInviteEmail("");
+            onRefresh();
+        } catch (error) {
+            setStatusType("error");
+            setStatusMessage(error.message || "Error al invitar usuario.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleInviteMember = async (e) => {
+        e.preventDefault();
+        if (!inviteEmail.trim()) return;
+
+        setStatusMessage("");
+        setIsLoading(true);
+
+        try {
+            const result = await createDirectChat(inviteEmail);
+            
+            if (result.invited) {
+                setStatusType("success");
+                setStatusMessage("Invitación de registro enviada correctamente por correo.");
+                setIsInviting(false);
+                setInviteEmail("");
+                setIsLoading(false);
+            } else if (result.data) {
+                const otherParticipant = result.data.participants.find(
+                    p => p.user && (p.user.email?.toLowerCase() === inviteEmail.toLowerCase() || p.user.nickname?.toLowerCase() === inviteEmail.toLowerCase())
+                );
+                
+                if (otherParticipant && otherParticipant.user) {
+                    const userId = otherParticipant.user._id;
+                    await inviteContactById(userId);
+                } else {
+                    throw new Error("No se pudo encontrar el usuario.");
+                }
+            }
+        } catch (error) {
+            setStatusType("error");
+            setStatusMessage(error.message || "Error al buscar o invitar usuario.");
+            setIsLoading(false);
+        }
+    };
+
+    const confirmRemoveMember = (userId) => {
+        setConfirmDialog({
+            isOpen: true,
+            title: "¿Eliminar miembro?",
+            subtitle: "Esta acción no se puede deshacer.",
+            confirmText: "Eliminar",
+            action: () => executeRemoveMember(userId)
+        });
+    };
+
+    const executeRemoveMember = async (userId) => {
+        setConfirmDialog({ ...confirmDialog, isOpen: false });
         setStatusMessage("");
         setIsLoading(true);
         try {
@@ -74,8 +181,18 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
         }
     };
 
-    const handleLeaveGroup = async () => {
-        if (!window.confirm("¿Seguro que deseas abandonar este grupo?")) return;
+    const confirmLeaveGroup = () => {
+        setConfirmDialog({
+            isOpen: true,
+            title: "¿Abandonar grupo?",
+            subtitle: "Dejarás de recibir mensajes de este grupo.",
+            confirmText: "Abandonar",
+            action: () => executeLeaveGroup()
+        });
+    };
+
+    const executeLeaveGroup = async () => {
+        setConfirmDialog({ ...confirmDialog, isOpen: false });
         setStatusMessage("");
         setIsLoading(true);
         try {
@@ -227,7 +344,7 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
 
                             {isAdmin && isGroup && (
                                 <button
-                                    className="whatsapp-btn"
+                                    className="edit-group-info"
                                     onClick={() => setIsEditing(true)}
                                 >
                                     Editar Info del Grupo
@@ -270,10 +387,20 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
                     </div>
                 )}
 
-                {isGroup && (
+                {isGroup && !isInviting && (
                     <div className="group-members-section">
                         <h4>Miembros ({contactSelected.participants.length})</h4>
+
                         <div className="group-members-list">
+                            <div className="group-member-item add-member-option" onClick={() => setIsInviting(true)}>
+                                <div className="group-member-avatar-wrapper add-member-icon-wrapper">
+                                    +
+                                </div>
+                                <div className="group-member-info">
+                                    <h5 className="add-member-text">Añadir participante</h5>
+                                </div>
+                            </div>
+
                             {contactSelected.participants.map((participant) => {
                                 if (!participant.user) return null;
                                 const isSelf = participant.user._id === userProfile?._id;
@@ -298,7 +425,7 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
                                         {isAdmin && !isSelf && (
                                             <button
                                                 className="group-member-remove-btn"
-                                                onClick={() => handleRemoveMember(participant.user._id)}
+                                                onClick={() => confirmRemoveMember(participant.user._id)}
                                                 disabled={isLoading}
                                             >
                                                 Eliminar
@@ -311,16 +438,84 @@ export default function GroupDetailSideBar({ contactSelected, onClose, onRefresh
                     </div>
                 )}
 
-                {isGroup && (
+                {isGroup && isInviting && (
+                    <div className="group-members-section">
+                        <div className="invite-view-header">
+                            <button className="group-detail-close-btn" onClick={() => { setIsInviting(false); setInviteEmail(""); }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                                </svg>
+                            </button>
+                            <h4>Añadir participantes</h4>
+                        </div>
+
+                        <form onSubmit={handleInviteMember} className="invite-search-form">
+                            <input
+                                type="text"
+                                className="invite-search-input"
+                                placeholder="Email o nickname"
+                                value={inviteEmail}
+                                onChange={(e) => setInviteEmail(e.target.value)}
+                                disabled={isLoading}
+                                required
+                            />
+                            <button type="submit" disabled={isLoading} className="invite-search-btn">
+                                Buscar
+                            </button>
+                        </form>
+
+                        <div className="group-members-list">
+                            {contactsList
+                                .filter(contact => !contactSelected.participants.some(p => p.user && p.user._id === contact._id))
+                                .map(contact => (
+                                    <div key={contact._id} className="group-member-item invite-member-item" onClick={() => inviteContactById(contact._id)}>
+                                        <div className="group-member-avatar-wrapper">
+                                            {contact.avatar ? (
+                                                <img src={contact.avatar} alt={contact.name} />
+                                            ) : (
+                                                <div className="group-member-avatar-placeholder"></div>
+                                            )}
+                                        </div>
+                                        <div className="group-member-info">
+                                            <h5>{contact.nickname || contact.name}</h5>
+                                            <span className="group-member-role">{contact.email}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                                {contactsList.filter(contact => !contactSelected.participants.some(p => p.user && p.user._id === contact._id)).length === 0 && (
+                                    <p className="invite-no-contacts">No hay más contactos disponibles para añadir.</p>
+                                )}
+                        </div>
+                    </div>
+                )}
+
+                {isGroup && !isInviting && (
                     <button
                         className="group-leave-btn"
-                        onClick={handleLeaveGroup}
+                        onClick={confirmLeaveGroup}
                         disabled={isLoading}
                     >
                         Abandonar Grupo
                     </button>
                 )}
             </div>
+
+            {confirmDialog.isOpen && (
+                <div className="custom-confirm-overlay">
+                    <div className="custom-confirm-box">
+                        <h4 className="custom-confirm-title">{confirmDialog.title}</h4>
+                        <p className="custom-confirm-subtitle">{confirmDialog.subtitle}</p>
+                        <div className="custom-confirm-actions">
+                            <button className="custom-confirm-btn-cancel" onClick={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}>
+                                Cancelar
+                            </button>
+                            <button className="custom-confirm-btn-danger" onClick={confirmDialog.action}>
+                                {confirmDialog.confirmText}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

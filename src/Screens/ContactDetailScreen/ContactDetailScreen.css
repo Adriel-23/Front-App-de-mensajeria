@@ -15,6 +15,8 @@
     --background-color-dark-mode-tertiary: #030607;
     --font-color-dark-mode-primary: #ffffff;
     --font-color-dark-mode-secondary: #a2a295;
+    --danger-color: #ef4444;
+    --success-color: #00a884;
 }
 
 .empty-contact-detail {
@@ -211,7 +213,7 @@
 }
 
 .invitation-screen-container h2 {
-    color: #00a884;
+    color: var(--success-color);
     margin-bottom: 10px;
 }
 
@@ -229,8 +231,8 @@
 .invitation-buttons .btn-reject {
     padding: 10px 24px;
     background: transparent;
-    border: 1px solid #ef4444;
-    color: #ef4444;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
@@ -243,7 +245,7 @@
 
 .invitation-buttons .btn-accept {
     padding: 10px 24px;
-    background: #00a884;
+    background: var(--success-color);
     border: none;
     color: #fff;
     border-radius: 8px;

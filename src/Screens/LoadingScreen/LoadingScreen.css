@@ -1,3 +1,7 @@
+:root {
+    --loading-gray: #454545;
+}
+
 .loading-screen {
     position: fixed;
     top: 0;
@@ -24,7 +28,7 @@
 }
 
 .whatsapp-logo {
-    color: #454545;
+    color: var(--loading-gray);
 }
 
 .whatsapp-logo svg {
@@ -36,7 +40,7 @@
 .progress-bar-container {
     width: 320px;
     height: 3px;
-    background-color: #454545;
+    background-color: var(--loading-gray);
     border-radius: 4px;
     overflow: hidden;
 }

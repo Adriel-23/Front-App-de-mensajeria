@@ -1,3 +1,10 @@
+:root {
+    --border-color: #2a3942;
+    --hover-bg: #202c33;
+    --placeholder-bg: #4f5152;
+    --error-color: #f15c5c;
+}
+
 .create-group-sidebar-container {
     flex: 1;
     height: 100%;
@@ -17,7 +24,7 @@
     align-items: center;
     padding: 24px 20px 20px 20px;
     gap: 20px;
-    border-bottom: 1px solid #2a3942;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .create-group-sidebar-header h2 {
@@ -64,7 +71,7 @@
 
 .create-group-input-group input {
     background-color: var(--background-color-dark-mode-secondary);
-    border: 1px solid #2a3942;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 12px 14px;
     color: var(--font-color-dark-mode-primary);
@@ -99,7 +106,7 @@
     flex: 1;
     min-width: 0;
     background-color: var(--background-color-dark-mode-secondary);
-    border: 1px solid #2a3942;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 12px 14px;
     color: var(--font-color-dark-mode-primary);
@@ -116,7 +123,7 @@
     flex-shrink: 0;
     background-color: var(--background-color-dark-mode-secondary);
     color: var(--font-color-dark-mode-primary);
-    border: 1px solid #2a3942;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 0 16px;
     font-weight: 600;
@@ -126,7 +133,7 @@
 }
 
 .search-add-btn:hover {
-    background-color: #202c33;
+    background-color: var(--hover-bg);
     border-color: var(--detail-color-primary);
 }
 
@@ -145,7 +152,7 @@
 
 .create-group-contacts-list {
     background-color: var(--background-color-dark-mode-secondary);
-    border: 1px solid #2a3942;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 10px;
     max-height: 200px;
@@ -165,7 +172,7 @@
 }
 
 .create-group-contact-item:hover {
-    background-color: #202c33;
+    background-color: var(--hover-bg);
 }
 
 .create-group-contact-item input[type="checkbox"] {
@@ -203,7 +210,7 @@
 .contact-avatar-placeholder {
     width: 100%;
     height: 100%;
-    background-color: #4f5152;
+    background-color: var(--placeholder-bg);
 }
 
 .no-contacts-text {
@@ -249,8 +256,8 @@
 
 .create-group-status-box.error {
     background-color: rgba(239, 68, 68, 0.12);
-    border: 1px solid #f15c5c;
-    color: #f15c5c;
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
 }
 
 .create-group-status-box.success {
@@ -284,7 +291,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px dashed #4f5152;
+    border: 2px dashed var(--placeholder-bg);
     position: relative;
     cursor: pointer;
 }
